@@ -1,0 +1,890 @@
+%\RequirePackage{cmap}
+\documentclass[10pt,russian]{article}
+
+\usepackage[T2A]{fontenc}
+\usepackage{amssymb,amsthm,amsfonts,amsmath,amscd}
+\usepackage{mathtools}
+\usepackage[matrix, arrow, curve]{xy}
+\usepackage{faktor}
+%\usepackage[left=2cm,right=2cm,
+%top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+\usepackage[utf8]{inputenc}
+
+\binoppenalty=10000
+\relpenalty=10000
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{corol}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+
+
+\theoremstyle{definition}
+\newtheorem{defi}[theorem]{Definition}
+\newtheorem{rem}[theorem]{Remark}
+\newtheorem{den}[theorem]{Notation}
+\newtheorem{exm}[theorem]{Example}
+
+%\def\theproof{}
+
+
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\CC}{\mathbb{C}}
+
+\newcommand{\Cc}{\mathcal{C}}
+\newcommand{\Hc}{\mathcal{H}}
+\newcommand{\Dc}{\mathcal{D}}
+
+
+\newcommand{\CoCoalg}{{\rm CoCoalg}}
+\newcommand{\id}{{\rm id}}
+\newcommand{\Spec}{{\rm Spec}}
+\newcommand{\Hom}{{\rm Hom}}
+\newcommand{\Mat}{{\rm Mat}}
+\newcommand{\Tot}{{\rm Tot}}
+\newcommand{\Barr}{{\rm Bar}}
+\newcommand{\Mod}{{\rm Mod}}
+\newcommand{\Gr}{{\rm Gr}}
+\newcommand{\Comod}{{\rm Comod}}
+\newcommand{\Ext}{{\rm Ext}}
+\newcommand{\End}{{\rm End}}
+\newcommand{\GL}{{\rm GL}}
+\newcommand{\UU}{{\rm U}}
+\newcommand{\Ho}{{\rm Ho}}
+\newcommand{\iter}{{\rm iter}}
+\newcommand{\Uni}{{\rm Uni}}
+
+
+
+
+\newcommand{\beq}{\begin{equation}}
+	\newcommand{\eeq}{\end{equation}}
+
+
+
+
+\begin{document}
+	
+
+	\begin{abstract}
+		
+		Let $M$ be a differentiable manifold, $x \in M$. Chen identified the coordinate ring of the prounipotent completion of $\pi_1(M,x)$ with $H^0$ of a certain complex associated to the de Rham algebra of $M$, and iterated integrals as a map from $\pi_1(M,x)$ to this $H^0$. \par
+		The goal of this work lies in giving a general treatment of Chen's result for an arbitrary augmented connected differential graded algebra.
+		
+	\end{abstract}
+	
+	\begin{center}l
+		
+		\textbf{\large Gorchinskiy Sergey Olegovich}
+		
+		
+		\textbf{\large Nesterova Elizaveta Sergeevna}
+		
+		\vspace{1.5cm}
+		
+		{\Large\bfseries
+			Unipotent modules and the bar complex
+			\par}
+		
+		\vspace{1.5cm}
+		
+	\end{center}
+	\thispagestyle{empty}
+	\pagebreak
+	%%
+	
+	
+\section{Introduction}
+	
+We establish a relation between unipotent dg-modules over a \mbox{dg-algebra} and comodules over the coalgebra which is the zeroth cohomology of the bar complex.
+
+\medskip
+
+Let $M$ be a differentiable manifold, $x \in M$. A well-known result in multivariable calculus asserts that homomorphisms from the fundamental group $\pi_1(M,x)$ to $\mathbb R$ are given by integrals $\int_{\gamma} \omega$ of differential \mbox{$1$-forms} $\omega \in A_M^1$. Note that all these homomorphisms factor through the abelianization.
+	Parshin \cite{Par} initiated a noncommutative extension of this result by introducing iterated integrals $\int_{\gamma} \omega_1 \otimes \ldots \otimes \omega_n$, where $\omega_1 \otimes \ldots \otimes \omega_n \in (A^1_M)^{\otimes n}$. A further treatment of this was made by Chen \cite{Chen}, who defined a pairing $\pi_1(M, x) \times  H \to \mathbb R$, where~$H$ is a subquotient in $T(A^1_ M) =\bigoplus_{n\geqslant 0}(A^1_M)^{\otimes n}$ and $H$ inherits a structure of a pro-unipotent Hopf algebra.
+	This pairing identifies the coordinate ring of the prounipotent completion of $\pi_1(M, x)$ with $H$.
+	Note that $H$ is isomorphic to~$H^0$ of the bar complex $\Barr(A_M, \alpha_x)$, where $A_M$ is the de Rham dg-algebra and $\alpha_x \colon A_M \to \mathbb R$ is the evaluation at~$x$.
+	
+	The classical Riemann--Hilbert correspondence provides an equivalence between the category of unipotent representations of $\pi _1(M, x)$ and the category $\Mod^{uni}(A_M)$ of unipotent dg-modules over $A_M$, i.e. dg-modules that are finite iterated extensions of $A_M$ by itself. From this point of view Chen's theorem asserts an equivalence of categories:
+	$$
+	\Mod^{uni} (A_M) \stackrel{\sim} \rightarrow \Comod^{fin}(H),
+	$$
+	where $\Comod^{fin}(H)$ is the category of finite-dimensional comodules over $H$.
+	
+	Note that this is a purely algebraic statement on the de Rham dg-algebra. Thus, it is natural to try to give an algebraic proof of Chen's theorem only in terms of the de Rham algebra without using analysis and iterated integrals. Another problem is to find to what extent Chen's theorem in this form can be generalized to an arbitrary augmented dg-algebra.
+
+\medskip
+
+In this paper we solve this problem. Consider an arbitrary dg-algebra $A$ over a field $k$ with an augmentation $\alpha\colon A\to k$. The bar complex construction defines a coaugmented dg-coalgebra $C=\Barr(A,\alpha)$ and a dg-comodule $B(M)$ over $C$ for any dg-module $M$ over $A$ (see Section~\ref{bar_complex}). This gives a triangulated functor between the homotopy categories of dg-modules over $A$ and dg-comodules over~$C$:
+\begin{equation}\label{eq:Btriang}
+B\colon \Ho(\Mod(A))\to \Ho(\Comod(C)).
+\end{equation}
+Note that there are canonical quasi-isomorphisms of complexes $C\simeq k \otimes_A^{\mathbb L} k$, $B(M)\simeq M \otimes_A^{\mathbb L} k$. Thus, if $M$ is unipotent, then $B(M)$ has only zeroth non-trivial cohomology and the composition
+$$
+\Phi\colon\Mod^{uni}(A)\stackrel{B}\longrightarrow \Comod(C)\stackrel{H^0}\longrightarrow \Comod(H)
+$$
+is exact, where $H=H^0(C)$ (see Lemma~\ref{lem:Phiexact}). For example, the regular \mbox{dg-module}~$A$ is sent by $\Phi$ to the comodule $k$ over $H$ defined by the coaugmention. If $A^{<0}=0$, then $H$ is a subquotient in the free coalgebra $T(A^1)$ (see Section~\ref{subsec:T}). If $A$ is connected, i.e. $H^{<0}(A)=0$ and $k=H^0(A)$, then the category $\Ho(\Mod^{uni}(A))$ is abelian (see Proposition~\ref{prop:dg}(3)). The main result of the paper is the following.
+
+\begin{itemize}
+\item[]{}
+
+{\it {\bf Theorem A.} Suppose that a dg-algebra $A$ is connected. Then the functor
+$$
+\Phi\colon\Ho(\Mod^{uni}(A))\stackrel{\sim}\longrightarrow \Comod^{fin}(H)
+$$
+is an equivalence of abelian categories.
+}
+\end{itemize}
+
+In particular, one deduces Chen's theorem from this result by using the Riemann--Hilbert corespondence as explaned above and a simple fact that the natural functor $\Mod^{uni}(A)\to \Ho(\Mod^{uni}(A))$ is an equivalence of categories if~$A^{<0}=0$ (see Lemma~\ref{prop:dg}(2)).
+
+
+\medskip
+
+In order to prove the main result, we show that the functor $\Phi$ is fully faithful and essentially surjective. With this aim, firstly, we show that an arbitrary connected dg-algebra can be replaced by a quasi-isomorphic dg-subalgebra without negative terms and the zeroth term being $k$ (see Proposition~\ref{prop:dg}(1) and Lemma~\ref{lem:subalgebra}). In this case, the homotopy category $\Ho(\Mod^{uni}(A))$ turns out to be equivalent to $\Mod^{uni}(A)$ (see Proposition~\ref{prop:dg}(2)).
+
+Secondly, we use that unipotent dg-modules over $A$, respectively, finite-dimensional comodules over $H$, are iterated extensions of $A$, respectively, of~$k$, by itself. With the help of this, it is easy to reduce both required properties of the functor $\Phi$ to the following key fact (see Proposition~\ref{prop:Ext}): the functor $\Phi$ induces an isomorphism
+$$
+{\Phi\colon\Ext_A^1(A, M)\stackrel{\sim}\longrightarrow\Ext_H^1(k,\Phi(M))}.
+$$
+	
+Finally, in order to prove the key fact we use the following observations. For any $M$, by construction, $B(M)$ is cofree as a graded comodule over $C$, whence there is an isomorphism $H^1(B(M)^C)\simeq \Ext^1_C(k,B(M))$, where $B(M)^C$ denotes the subcomplex of $C$-invariants (see Lemma~\ref{'useful'}). Combining this with the natural isomorphism $H^1(M)\simeq \Ext^1_A(A,M)$ (see Lemma~\ref{'useful3'}) and the fact that $M\subset B(M)$ is identified with $B(M)^C$, we obtain an isomorphism $\Ext^1_A(A,M)\stackrel{\sim}\longrightarrow \Ext^1_C(k,B(M))$ (see Lemma~\ref{lemma:Bextensions}). To show an isomorphism $\Ext^1_C(k,B(M))\simeq \Ext^1_H(k,\Phi(M))$, we suggest to use a corresponding general property of dg-comodules over coaugmented dg-coalgebras without negative terms (see Lemma~\ref{'useful1'}), which requires the corresponding complexes to have no negative terms. So, we want $C$ and $B(M)$ to satisfy this property. However, in general, this is not the case. In order to overcome this difficulty, we use the reduced bar complex $\overline{C}=\overline{\Barr}(A,\alpha)$, which is quasi-isomorphic to the bar complex $C$ (see Lemma~\ref{lem:reducedquis}) and has no negative terms provided that $A^{<0}=0$ and $k=A^0$ (which we have already assumed). Moreover, the reduced bar complex construction allows to define  for unipotent dg-modules $M$ graded cofree dg-comodules $\overline{B}(M)$ over $\overline{C}$ with $\overline{B}(M)^{<0}=0$ (see Section~\ref{reduced_bar}). This gives a proof of the key fact.
+
+%The paper is organized as follows: in Section~\ref{statement} we introduce everything we need to state the main theorem and in %Section~\ref{proof} we prove the theorem.
+
+\medskip
+
+Our main result, Theorem A, should be considered in the context of Positselski's fundamental work~\cite{Pos}. Namely, it is proved in~\cite[Theorem~6.3(a)]{Pos} that the functor $B$ in formula~\eqref{eq:Btriang} induces an equivalence of triangulated categories
+$$
+B\colon {\rm D}(\Mod(A))\stackrel{\sim}\longrightarrow {\rm D}^{co}(\Comod(C))
+$$
+between the derived category of dg-modules over $A$ and the coderived category of dg-comodules over $C$. It follows from descriptions of derived and coderived categories (see~\cite[Theorem~1.4(b)]{Pos} and~\cite[Theorem~4.4.(c)]{Pos}, respectively) that, equivalently, the functor $B$ induces an equivalence of triangulated categories
+$$
+B\colon \Ho(\Mod(A))^{proj}\stackrel{\sim}\longrightarrow \Ho(\Comod^{inj}(C)),
+$$
+where $\Ho(\Mod(A))^{proj}$ is the minimal full triangulated subcategory in $\Ho(\Mod(A))$ that contains $A$ and is closed under infinite direct sums and $\Ho(\Comod^{inj}(C))$ is the full triangulated subcategory in $\Ho(\Comod(C))$ consisting of dg-comodules that are injective as graded comodules over $C$.
+
+Clearly, $\Ho(\Mod^{uni}(A))\subset \Ho(\Mod(A))^{proj}$. Let $\Hc\subset \Ho(\Comod^{inj}(C))$ be the full subcategory consisting of dg-comodules $V$ such that $H^i(V)=0$ for $i\ne 0$ and $H^0(V)$ is finite-dimensional over $k$. Then the image of $B$ on $\Ho(\Mod^{uni}(A))$ is contained in $\Hc$. Thus a natural way to deduce Theorem~A from Positselski's theorem is to prove that whenever $A$ is connected, the functor
+$$
+H^0\colon \Hc\to \Comod^{fin}(H)
+$$
+is fully faithful and the composition
+$$
+\Phi\colon \Ho(\Mod^{uni}(A))\stackrel{B}\longrightarrow \Hc\stackrel{H^0}\longrightarrow \Comod^{fin}(H)
+$$
+is essentially surjective. Indeed, since by Positselski's theorem the functor $B$ is fully faithful, this would imply that all these three functors $\Phi$, $B$, and $H^0$ are equivalences of categories.
+
+An attempt to fullfill this plan lead us to a simpler proof of the main result, which is not based on Positselski's theorem. Actually, our proof does not use any sophisticated homological algebra besides $\Ext^1$-groups in abelian categories.
+
+
+\medskip
+	
+The author would like to express a special appreciation to his scientific advisor Sergey Gorchinskiy, who did not give up on the author despite his (author's) frivolity. Sergey was really patient and put enormous efforts to give the author a good start as a mathematician. The author will be always grateful for this.
+
+	\section{Statement of the main result}
+	\label{statement}
+
+We work over a field $k$. Tensor products are taken over $k$ unless another base is specified. All modules and comodules are assumed to be right.
+
+Given objects $M$, $N$ in an abelian category $\mathcal A$, we denote by $\Ext^1_{\mathcal A}(M,N)$ the group of extensions of $M$ by $N$ in $\mathcal A$.
+
+Given a complex $C$, we denote by $C^{\sharp}$ the corresponding graded vector space.
+
+%Given a complex $C$ and a graded vector space $X$, denote by $C\simeq_{gr} X$ or $X\simeq_{gr} C$ isomorphisms between $C$ as a graded vector %space and~$X$.
+
+\subsection{Pro-unipotent coaugmented coalgebras}\label{subsec:T}
+	
+%	Recall that the comodule over a Hopf algebra $H$ is called \emph{unipotent}, if every subquotient of % the comodule has a nonzero coinvariant vector.
+	
+Let $H$ be a coalgebra with coaugmentation ${k\to H}$, i.e. with a fixed element $1\in H$ such that $\Delta(1)=1\otimes 1$, where ${\Delta\colon H\to H\otimes H}$ is the coproduct map. Denote by $\CoCoalg(k)$ the category of coaugmented coalgebras over $k$. 
+
+Recall that $H$ is \emph{pro-unipotent} if every non-zero comodule~$V$ over $H$ has a non-zero invariant vector, i.e. an element $0\ne v\in V$ such that $\rho(v)=v\otimes 1$, where ${\rho\colon V\to V\otimes H}$ is the coaction map, and coconnected if there exists an exhaustive filtration $C_{\bullet}$ on $H$ with $C_0=k$ such that $\Delta(C_r) \subset \sum_{i+j=r} C_i \otimes C_j$. By \cite{Milne}, Theorem 14.5, a finite type coalgebra is coconnected if and only if it is unipotent. Hence an arbitrary algebra is pro-unipotent if and only if its every finite type subalgebra is coconnected.
+
+Here is a useful reformulation: a coaugmented coalgebra $k\to H$ is pro-unipotent if and only if for any element $h\in H$, there is $N\in {\mathbb N}$ such that the value at $h$ of any length $N$ iteration of $\Delta$ belongs to the kernel of the map ${H^{\otimes (N+1)}\to (H/k)^{\otimes (N+1)}}$. Indeed, if $C$ is a finite type subcoalgebra containing $h$, and $C_{\bullet}$ is its filtration from the definition of coconnectedness, then it suffices to apply $\Delta$ $m$ times, where $h \in C_m$. Conversely, you could always define $C_{\bullet}$ inductively by $C_{r+1}=\{c : \Delta(c) \in \sum_{i+j=r} C_i \otimes C_j \}$. Then if $\Delta^N(h)$ is in the kernel of the map ${H^{\otimes (N+1)}\to (H/k)^{\otimes (N+1)}}$, then $h \in C_N$.
+
+It follows from the criteria above that coaugmented sub-coalgebras and quotient-coalgebras of a pro-unipotent coaugmented coalgebra are pro-unipotent as well.
+	
+\begin{exm}
+The coaugmented coalgebra $k[x]=\mathcal{O}(\mathbb{G}_a)$ is pro-unipotent.
+\end{exm}
+\begin{exm}
+We will use that the cofree coaugmented coalgebra $T(V) = \bigoplus_{n \geqslant 0} V^{\otimes n}$  is pro-unipotent. We recall the explicit description of it, where $u \otimes v \in V^{\otimes 2}$ is written $(u|v)$ for clarity:
+			\begin{itemize}
+			\item Coaugmentation in $T(V)$ is given by the image of $1\in k$ under $k = V^{\otimes 0}\subset T(V)$.
+			
+			\item Counit $\epsilon\colon T(V) \to k$ comes from the natural projection map $T(V) \to k = V^{\otimes 0}$.
+			
+			%\item Antipode $\iota\colon T(V) \to T(V)$ is defined by the formula
+			%$$
+			%(v_1 | \ldots | v_n) \longmapsto (-1)^n (v_n | \ldots |v_1)\,,\qquad n\geqslant 1\,,\qquad \iota(1)=1\,.
+			%$$
+			
+			%\item The product $m\colon T(V) \otimes T(V) \to T(V)$ is given by the shuffle product
+			%$$
+			%(v_1| \ldots | v_n) \otimes (v'_1 | \ldots | v'_{n'}) \longmapsto \sum_{\tau \in S_{n, n'}} \tau(v_1| \ldots | v_n | v^{\prime}_1 | %\ldots | v^{\prime}_{n^{\prime}})\,,\quad n,n'\geqslant 1\,
+%			$$
+%			and ${m\big((v_1|\ldots|v_n)\otimes 1\big)=m\big(1\otimes (v_1|\ldots|v_n)\big)=(v_1|\ldots|v_n)}$, where $S_{n,n'}$ is the set of %$(n,n')$-shuffle.
+			
+			\item The coproduct $\Delta\colon T(V) \to T(V) \otimes T(V)$ is given by deconcatenation
+			$$
+			(v_1| \ldots |v_n) \mapsto 1\otimes (v_1|\ldots|v_n)+
+			$$
+			$$
+			+\sum_{i=1}^{n-1} (v_1| \ldots |v_i )\otimes (v_{i+1}| \ldots |v_n)+(v_1|\ldots|v_n)\otimes 1\,,\qquad n\geqslant 1,
+			$$
+			and $\Delta(1)=1\otimes 1$.
+		\end{itemize}
+	\end{exm}
+
+\begin{rem}\label{rem:shufflecofree}
+Also, one defines canonically a commutative shuffle product on~$T(V)$ and an antipode map so that $T(V)$ becomes a Hopf algebra, but we will not use this.
+\end{rem}
+
+\medskip
+
+A similar construction can be applied in any additive symmetric tensor category $\Cc$ with infinite sums: one sends an object $X$ in $\Cc$ to the object $\bigoplus_{n\geqslant 0}X^{\otimes n}$ in $\CoCoalg(\Cc)$.
+
+However, in the context of the bar complex we will need another natural construction, namely, with values in coaugmented coalgebras in the symmetric tensor category $\Gr(\Cc)$ of graded objects in $\Cc$ with the usual Koszul sign rule:
+$$
+T_{\Gr}\colon \Cc\to \CoCoalg(\Gr(\Cc)),\quad X\mapsto (X^{\otimes n})_{n\in \Z}.
+$$
+Note that in general the functor
+$$
+\oplus\colon \Gr(\Cc)\to \Cc,\quad(Y^n)\mapsto\mbox{$\bigoplus\limits_{n\in \Z}Y^n$},
+$$
+has no tensor structure such that it would be symmetric (in particular, this functor is not symmetric with the natural tensor structure).
+
+Now suppose that $\Cc\simeq \Gr(\Dc)$ for another additive symmetric tensor category~$\Dc$ with infinite direct sums. Then there is another functor
+$$
+\Tot^{\oplus}\colon \Gr(\Cc)=\Gr(\Gr(\Dc))\to \Cc=\Gr(\Dc),\quad S=(S^{i,j})_{i,j\in\Z}\mapsto\mbox{$\bigoplus\limits_{i+j=n}S^{i,j}$}.
+$$
+with the tensor structure given by the following sign twist for objects $S=(S^{i,j})_{i,j\in\Z}$ and $T=(T^{p,q})_{p,q\in\Z}$:
+$$
+\Tot^{\oplus}(S)\otimes \Tot^{\oplus}(T)\simeq \Big(\mbox{$\bigoplus\limits_{i+j+p+q=n}S^{i,j}\otimes T^{p,q}$}\Big)_{n\in\Z}\to
+$$
+$$
+\to\Tot^{\oplus}(S\otimes T)\simeq\Big(\mbox{$\bigoplus\limits_{i+j+p+q=n}S^{i,j}\otimes T^{p,q}$}\Big)_{n\in\Z}\,,
+$$
+$$
+(-1)^{jp}\colon S^{i,j}\otimes T^{p,q}\mapsto S^{i,j}\otimes T^{p,q}.
+$$
+The point is that the tensor functor $\Tot^{\oplus}$ is symmetric. 
+
+Thus, we obtain a functor with values in coaugmented coalgebras in $\Gr(\Dc)$:
+\begin{equation}\label{eq:tildeT}
+\widetilde{T}\colon\Gr(\Dc)\stackrel{T_{\Gr}}\longrightarrow \CoCoalg(\Gr(\Gr(\Dc)))\stackrel{\Tot^{\oplus}}\longrightarrow \CoCoalg(\Gr(\Dc)).
+\end{equation}
+Explicitly, when $\Dc$ is the category of vector spaces and $V$ is a graded vector space, the formula for coproduct reads as follows:
+$$
+\Delta(v_1|\ldots|v_n)=\sum_{i=0}^n(-1)^{(n-i)(|v_1|+\ldots+|v_{i}|)}(v_1|\ldots|v_i)\otimes (v_{i+1}|\ldots|v_{n}),
+$$
+where $|v|=p$ denotes the degree of a homogenous element $v\in V^p$.
+
+Note that if we forget the grading on $\widetilde{T}(V)$, it is not necessarily a cofree coalgebra in general but it is still pro-unipotent by the criterion above.
+
+%Здесь должны
+%
+ \subsection{Bar complex}
+ \label{bar_complex}
+	
+	Let $A = \bigoplus_{i \in \Z} A^i$ be a dg-algebra over a field $k$ with augmentation $\alpha: A \to k$.
+	
+Let $M$ be a dg-module over $A$. Define the following simplicial complex, i.e. a simplicial object in the category of complexes:
+\begin{equation}\label{eq:simplicial}
+[n] \mapsto M \otimes \underbrace{A \otimes \ldots \  \otimes A}_\text{$n$ times },\quad n\geqslant 0,
+\end{equation}
+with degeneracy maps
+$$
+ \sigma_{i} \colon (m|a_1| \cdots |a_n) \mapsto (m|a_1| \ldots |a_i|1|a_{i+1}| \ldots |a_n),\quad 0\leqslant i \leqslant n,
+$$
+and face maps
+$$
+\partial_{0} \colon (m|a_1| \cdots |a_n) \mapsto (ma_1|a_2|  \ldots |a_n), 
+$$
+$$
+\partial_{i} \colon (m|a_1| \cdots |a_n) \mapsto (m|a_1| \ldots |a_{i} \cdot a_{i+1}| \ldots |a_n), \quad 1\leqslant i \leqslant n-1.
+$$
+The \emph{bar complex} $B(M)$ is the $\oplus$-total complex of the bicomplex associated naturally with this simplical complex. Explicitly, $B(M)$ is the $\oplus$-total complex of the following bicomplex:
+
+$$
+	\begin{CD}
+		@. @AAA @AAA@AAA\\
+		@>>>(M \otimes A^{\otimes 2})^2@>\partial>>(M \otimes A)^2 @>\partial>> M^2 @>>> 0\\
+		@. @AA d A @AA d A@AA d A\\
+		@>>>(M \otimes A^{\otimes 2})^1@>\partial>>(M \otimes A)^1 @>\partial>> M^1 @>>> 0\\
+		@. @AA d A @AA d A@AA d A\\
+		@>>>(M \otimes A^{\otimes 2})^0@>\partial>>(M \otimes A)^0 @>\partial>> M^0 @>>> 0\\
+		@. @AA d A @AA d A@AA d A\\
+		@>>>(M \otimes A^{\otimes 2})^{-1}@>\partial>>(M \otimes A)^{-1} @>\partial>> M^{-1} @>>> 0\\
+		@. @AAA @AAA@AAA
+	\end{CD}
+$$
+The differentials in this bicomplex are as follows:
+$$
+\partial(m | a_1|\ldots|a_n)= (m \cdot a_1|a_2 | \ldots |a_n) +\sum_{i=1}^{n-1} (-1)^i
+(m | a_1|\ldots |a_i\cdot a_{i+1}|\ldots|a_n),
+$$
+$$
+d(m | a_1|\ldots|a_n)=(dm | a_2|\ldots|a_n)+
+$$
+$$
++\sum_{i=1}^n (-1)^{n+|m|+|a_1|+\ldots+|a_{i-1}|}(m | a_1|\ldots|a_{i-1}|da_i|a_{i+1}|\ldots|a_n).
+$$
+
+Denote by $\Barr(A, \alpha)$ the bar complex $B(k)$, where the $A$-module structure on~$k$ is defined by the augmentation $\alpha$.
+
+One can show that the complex $B(M)$ is canonically quasi-isomorphic to the derived tensor product $M \otimes_A^{\mathbb L} k$. In particular, the complex $\Barr(A, \alpha)$ is quasi-isomorphic to $k \otimes^{\mathbb L}_A k$.
+
+Note that there is a natural isomorphism $B(M)^{\sharp}\simeq M \otimes \widetilde{T}(A[1])$ of graded vector spaces (see formula~\eqref{eq:tildeT} for $\widetilde{T}$) and, in particular, $\Barr(A,k)^{\sharp}\simeq\widetilde{T}(A[1])$. This defines a coaugmented graded coalgebra structure on $\Barr(A, \alpha)^{\sharp}$ and a structure of a graded comodule over $\Barr(A, \alpha)^{\sharp}$ on $B(M)^{\sharp}$. One checks directly that these structures are compatible with differentials, i.e. we get a coaugmented dg-coalgebra structure on $\Barr(A, \alpha)$ and a structure of a  dg-comodule over $\Barr(A, \alpha)$ on $B(M)$.
+
+\begin{rem}
+The shuffle product on $\widetilde{T}(A[1])$ as in Remark~\ref{rem:shufflecofree} is not compatible with the differential unless the dg-algebra $A$ is commutative.
+\end{rem}
+
+One can show that the dg-comodule structure above corresponds to the following map:
+$$
+M\otimes^{\mathbb L}_A k \to (M\otimes^{\mathbb L}_A k) \otimes_k (k \otimes^{\mathbb L}_A k) \simeq M \otimes^{\mathbb L}_A k \otimes^{\mathbb L}_A k,
+$$
+$$
+m \otimes c \mapsto m \otimes 1 \otimes c.
+$$
+
+
+For short, put $C=\Barr(A,\alpha)$. The description of the corresponding graded vector spaces implies that the functor
+$$
+\Mod(A)\to \Comod(C),\quad M\mapsto B(M),
+$$
+is exact, where $\Mod(A)$ denotes the category of right dg-modules over $A$ and $\Comod(C)$ denotes the category of right dg-comodules over $C$.
+
+\medskip
+
+Further, the structures above induce a coaugmented coalgebra structure on $H = H^0(C)$ and define a functor
+$$
+\Mod(A) \to  \Comod(H),\quad M \mapsto  H^0(B(M)),
+$$
+where by abuse of notation we denote by $\Comod(H)$ the category of right comodules over $H$ (not the category of dg-comodules over $H[0]$, i.e. complexes of comodules over $H$). For example, the regular dg-module $A$ is sent by this functor to the trivial comodule $k$ over~$H$ defined by the coaugmentation.
+
+
+An important fact is that $H$ is pro-unipotent. Indeed, the coaugmented graded coalgebra $C^{\sharp}\simeq\widetilde{T}(A[1])$ is pro-unipotent after we forget the grading and~$H$ is a sub-coalgebra in the quotient-coalgebra $(\tau_{\geqslant 0}(C))^{\sharp}$ of $C^{\sharp}$.
+
+Note that for dg-modules $M$, $M'$ over $A$, the functor $B$ defines correctly a morphism of Hom-complexes
+$$
+\underline{\Hom}_A(M,M')\to \underline{\Hom}_C(B(M),B(M')).
+$$
+Therefore, the functor $B$ induces a functor between the homotopy categories, which we denote similarly
+$$
+B\colon \Ho(\Mod(A))\to \Ho(\Comod(C)).
+$$
+Taking the composition of $B$ with the functor $H^0\colon \Ho(\Comod(C))\to \Comod(H)$, we obtain a functor
+\begin{equation}\label{eq:Phi}
+\Phi\colon \Ho(\Mod(A))\to \Comod(H).
+\end{equation}
+
+
+\subsection{Unipotent dg-modules}
+
+
+Let $A$ be a dg-algebra and $M$ be a dg-module over $A$. Consider a cocycle $m \in M^1$, $dm=0$.
+Define a differential on the graded $A$-module $N^{\sharp} =M^{\sharp} \oplus A^{\sharp}$ by the matrix $
+\begin{psmallmatrix}
+	d & m \\
+	0 & d \\
+\end{psmallmatrix}
+$ and denote the corresponding complex by $N$. Using the equality $dm=0$, one checks directly that an $A$-linear Leibniz rule holds for $N$, i.e. $N$ is a dg-comodule over $A$. Moreover, we obtain an extension of dg-modules over $A$
+$$
+\xymatrix{
+	& 0 \ar[r] &  M \ar[r] & N  \ar[r] &  A  \ar[r] & 0\,.
+}
+$$
+Thus we obtain a map
+\begin{equation}\label{eq:mu}
+\lambda \colon H^1(M) \to \Ext_A^1(A, M).
+\end{equation}
+
+
+\begin{lemma}
+\label{'useful3'}
+The map $\lambda$ is an isomorphism.
+\end{lemma}
+\begin{proof}
+	Let us construct an inverse map to $\lambda$. Consider an arbitrary extension of dg-modules over $A$
+	$$
+	\xymatrix{
+		& 0 \ar[r] &  M \ar[r] & N  \ar[r]^{p} &  A  \ar[r] & 0\,.	
+	}
+	$$
+	Since $A^{\sharp}$ is a free graded module over itself, there is a section $s\colon A^{\sharp}\to N^{\sharp}$ in the category of graded modules (which may be not compatible with the differential). Take the element ${m=d(s(1))\in N^1}$. Then $dm=0$ and $p(m) = d(1) = 0$. Thus,~$m$ is a cocycle in $M^1 \subset N^1$. This gives the required inverse map.
+\end{proof}
+
+A dg-algebra $A$ is \emph{connected} if $H^{<0}(A)=0$ and $k=H^0(A)$.
+
+\begin{lemma}\label{lem:subalgebra}
+Let $A$ be a connected dg-algebra. Then there is a dg-subalgebra $A'\subset A$ such that $(A')^{<0}=0$, $k=(A')^0$, and the embedding $A'\to A$ is a quasi-isomorphism.
+\end{lemma}
+\begin{proof}
+Put $(A')^{<0}=0$, $(A')^0=k$, and ${(A')^i=A^i}$ for $i\geqslant 2$. Choose any $k$-linear section $s\colon A^1/dA^0\to A^1$ of the quotient map ${A^1\to A^1/dA^0}$ and put ${(A')^1={\rm Im}(s)}$. One checks directly that the subcomplex $A'\subset A$ gives the required dg-subalgebra.
+\end{proof}
+\medskip
+We say that a dg-module over $A$ is \emph{unipotent} if it has a finite separated exhaustive filtration by dg-submodules with adjoint quotients being isomorphic to~$A$. In other words, a unipotent dg-module is a finite iterative extention of $A$ by itself. Note that any unipotent dg-module is isomorphic as a graded module over the graded algebra $A$ to $A^{\oplus n}$ for some $n\geqslant 0$.
+
+Denote by $\Mod^{uni}(A)$, respectively, by $\Ho(\Mod^{uni}(A))$,  the full subcategory in $\Mod(A)$, respectively, in  the homotopy category $\Ho(\Mod(A))$, formed by unipotent dg-modules.
+
+
+\begin{prop}\label{prop:dg}
+	\hspace{0cm}
+\begin{enumerate}
+	\item[(1)] A quasi-isomorphism of dg-algebras $A'\to A$ induces an equivalence of categories
+	$$
+	\Psi\colon \Ho(\Mod^{uni}(A')) \to \Ho(\Mod^{uni}(A)), \quad M' \mapsto M' \otimes_{A'} A.
+	$$
+	\item[(2)] If $A^{<0}=0$, then the natural functor
+	$$
+	\Mod^{uni}(A) \to \Ho(\Mod^{uni}(A))
+	$$
+	is an equivalence of categories.
+	\item[(3)] If a dg-algebra $A$ is connected, then the category $\Ho(\Mod^{uni}(A))$ is abelian.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+
+(1) Given unipotent dg-modules $M'$, $N'$ over $A'$, unipotent filtrations on them induce a bifiltration on the Hom-complex $\underline{\Hom}_A(M',N')$ with adjoint quotients being isomorphic to $A'$. Put $M=M'\otimes_{A'}A$, $N=N'\otimes_{A'}A$. We obtain the corresponding bifiltration on $\underline{\Hom}_A(M,N)$ with adjoint quotients being isomorphic to $A$. Moreover, the natural morphism of complexes ${\underline{\Hom}_{A'}(M',N')\to \underline{\Hom}_A(M,N)}$ respects these bifiltrations, whence it is a quasi-isomorphism as $A'\to A$ is a quasi-isomorphism. We see that the functor $\Psi$ is fully faithful.
+
+To show that the functor $\Psi$ is essentially surjective, consider a unipotent dg-module $M$ over $A$ and proceed by induction on the rank of $M$ as a graded \mbox{$A$-module}. The base is obvious. For the induction step consider an exact sequence
+\begin{equation}\label{eq:P}
+ 	\xymatrix{
+ 		 0 \ar[r] &  P  \ar[r] & M  \ar[r]  &  A \ar[r]& 0\,,
+ 	}
+\end{equation}
+where $P$ is a unipotent dg-module over $A$. By the induction hypothesis, there is a unipotent dg-module $P'$ over $A'$ such that $P'\otimes_{A'}A\simeq P$. By Lemma~\ref{'useful3'}, extension~\eqref{eq:P} corresponds to an element in $H^1(P)$. By what was shown above, the functor $\Psi$ induces an isomorphism $H^1(P')\simeq H^1(P)$. Therefore, using Lemma~\ref{'useful3'} again, we see that extension~\eqref{eq:P} is obtained by applying the functor~$\Psi$ to some extension
+$$
+ 	\xymatrix{
+ 		 0 \ar[r] &  P'  \ar[r] & M' \ar[r]  &  A' \ar[r]& 0\,.
+ 	}
+$$
+In particular, we have $M'\otimes_{A'}A\simeq M$.
+
+(2) Clearly, the functor ${\Mod^{uni}(A) \to \Ho(\Mod^{uni}(A))}$ is essentially surjective. Let us show that it is fully faithful. Let $M$, $N$ be unipotent dg-modules over $A$ and let $\underline{\Hom}_A(M,N)$ be the corresponding Hom-complex. Since there are isomorphisms ${M^{\sharp} \simeq (A^{\sharp} )^{\oplus m}}$ and ${N^{\sharp} \simeq (A^{\sharp})^{\oplus n}}$ of graded modules over $A^{\sharp}$, we see that there is an isomorphism of graded $A^{\sharp}$-modules ${\underline{\Hom}_{A^{\sharp}}(M^{\sharp},N^{\sharp})\simeq (A^{\sharp})^{\oplus mn}}$. Thus, $\underline{\Hom}_A(M,N)^{<0}=0$, because $A^{<0}=0$. Hence the second arrow in the following composition is an isomorphism, which proves (2)
+$$
+\Hom_A(M,N) \xrightarrow{\sim} Z^0(\underline{\Hom}_A(M,N)) \xrightarrow{\sim} 
+$$
+$$
+\xrightarrow{\sim}  H^0(\underline{\Hom}_A(M,N)) \xrightarrow{\sim}  \Hom_{\Ho(\Mod(A))}(M,N).
+$$
+
+(3) Replacing $A$ by a dg-subalgebra $A'\subset A$ as in Lemma~\ref{lem:subalgebra} and using the equivalence of categories from part (1), we can assume that $A^{<0}=0$ and $k=A^0$. By part (2), we need to show that $\Mod^{uni}(A)$ is abelian. For this, it is enough to show that $\Mod^{uni}(A)$ is closed in the abelian category $\Mod(A)$ under taking kernels and images.
+
+First, let us show that for any unipotent dg-module $M$, any morphism $f\colon M\to A$ of dg-modules over $A$ is either trivial or surjective with ${\rm Ker}(f)$ being a unipotent dg-module. We use induction on the rank of $M^{\sharp}$ as a graded $A^{\sharp}$-module. The base follows from the isomorphism ${\Hom_A(A,A)\simeq Z^0(A)}$ and the equality $k=A^0$. For the induction step, consider an exact sequence
+$$
+ 	\xymatrix{
+ 		 0 \ar[r] &  A  \ar[r]^{i} & M  \ar[r]  &  M'' \ar[r]& 0
+ 	}
+$$
+where $M''$ is a unipotent dg-module over $A$. By the base of the induction, the composition ${fi\colon A\to A}$ is either trivial or an isomorphism. In the first case, the morphism $f$ factors through a morphism $f''\colon M''\to A$. Hence, there is an exact sequence
+$$
+ 	\xymatrix{
+ 		 0 \ar[r] &  A  \ar[r] & {\rm Ker}(f) \ar[r]  &  {\rm Ker}(f'') \ar[r]& 0
+ 	}
+$$
+and we apply the induction hypothesis to $f''$. If $fi$ is an isomorphism, there is a natural isomorphism ${\rm Ker}(f)\simeq M''$.
+
+Now let us show that for any morphism $g\colon M\to N$, the dg-module ${\rm Ker}(g)$ is unipotent. We use induction on the rank of $N^{\sharp}$ as a graded $A^{\sharp}$-module. The base of the induction was proved above. For the induction step, consider an exact sequence
+$$
+ 	\xymatrix{
+ 		 0 \ar[r] &  N'  \ar[r] & N  \ar[r]^{p}  &  A \ar[r]& 0
+ 	}
+$$
+where $N'$ is a unipotent dg-module over $A$.
+By the above, the composition ${pg\colon M\to A}$ is either trivial or surjective with ${\rm Ker}(pg)$ being unipotent. In the first case, $g$ factors through a morphism $g'\colon M\to N'$, there is an equality ${\rm Ker}(g')={\rm Ker}(g)$, and we apply the induction hypothesis to $g'$. If $pg$ is surjective, put $M'={\rm Ker}(pg)$ and let $h\colon M'\to N'$ be the map induced by $g$. Then there is an natural isomorphism ${\rm Ker}(h)\simeq {\rm Ker}(g)$ and we apply the induction hypothesis to~$h$.
+
+We have shown that $\Mod^{uni}(A)\subset \Mod(A)$ is closed under kernels. The analogous statement for images is proved dually.
+\end{proof}
+
+\subsection{Main result}
+
+Let $A$ be a dg-algebra $A$ with an augmentation $\alpha\colon A\to k$. As in section \ref{bar_complex} put $H=H^0(\Barr(A, \alpha))$.
+
+\begin{lemma}\label{lem:Phiexact}
+\hspace{0cm}
+\begin{enumerate}
+\item[(1)]
+For any unipotent dg-module $M$ over $A$, we have $H^i(B(M))=0$ for $i\ne 0$.
+\item[(2)]
+The functor $\Phi$ (see formula \eqref{eq:Phi}) induces an exact functor
+$$
+\Phi\colon \Mod^{uni}(A)\to \Comod^{fin}(H),
+$$
+where $\Comod^{fin}(H)$ denotes the category of finite-dimensional comodules over~$H$.	Moreover, for any unipotent dg-module $M$ over $A$ there is a canonical isomorphism of vector spaces $\Phi(M) \simeq M^0 \otimes_{A^0} k$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(1)
+We use induction on the rank of $M^{\sharp}$ as a graded $A^{\sharp}$-module. Consider an extension
+\begin{equation}\label{eq:Zz}
+ 	\xymatrix{
+ 		 0 \ar[r] &  P  \ar[r] & M  \ar[r]  &  A \ar[r]& 0\,,
+ 	}
+\end{equation}
+where $P$ is a unipotent dg-module over $A$. Recall that there is a canonical quasi-isomorphism of complexes $B(M)\simeq M\otimes^{\mathbb L}_A k$. Thus the base of the induction follows from the quasi-isomorphism ${A\otimes_A^{\mathbb L} k\simeq k[0]}$. Further, we finish the proof by the induction hypothesis applied to $P$ and the long exact sequence of cohomology for $-\otimes_A^{\mathbb L}k$ applied to the equation \ref{eq:Zz}.
+
+(2) This follows directly from the latter long exact sequence of cohomology.
+\end{proof}
+
+Here is the main result of the paper.
+\begin{theorem}\label{main}
+Assume that $A$ is connected. Then the functor $\Phi$ induces an equivalence of abelian categories
+$$
+\Phi\colon\Ho(\Mod^{uni}(A))\stackrel{\sim}\longrightarrow \Comod^{fin}(H).
+$$
+\end{theorem}
+
+
+\section{Proof of the main result}
+\label{proof}
+
+\subsection{Auxiliary results on dg-comodules}
+\label{dg_comodules}
+
+A comodule $V$ over a coalgebra $C$ is \emph{cofree} if $V\simeq X\otimes C$ for some vector space~$X$, where we consider the comodule structure ${\id\otimes\Delta\colon X\otimes C\to X\otimes C\otimes C}$. We have a similar definition in the graded case with a vector space $X$ being replaced by a graded vector space.
+
+
+ \begin{lemma}
+ 	\label{'podlemma'}
+ 	Let $C$ be a graded coalgebra and $V$ be a cofree graded comodule over $C$. Then $\Ext^1_{C}(U, V) = 0$ for any comodule $U$ over $C$.
+ \end{lemma}
+ \begin{proof}
+ Let $X$ be a graded vector space such that there is an isomorphism of graded comodules ${V\simeq X\otimes C}$ over $C$. Consider an arbitrary extension
+ 	\begin{equation}
+ 		\label{eq:XC}
+ 	\xymatrix{
+ 		 0 \ar[r] &  V\simeq X \otimes C^{}  \ar[r] & W^{}  \ar[r]  &  U \ar[r] & 0\,.
+ 	}
+ 	\end{equation}
+ 	Let
+ 	\begin{equation}
+ 	\label{eq:X}
+ 	\xymatrix{
+ 		0 \ar[r] &  X^{}  \ar[r] & W'  \ar[r]  &  U \ar[r] & 0\,.
+ 	}
+ \end{equation}
+ 	be the pushout of extension~\eqref{eq:XC} along the map
+ 	$\id_X \otimes \epsilon \colon X^{} \otimes C^{} \to X^{}$, where $\epsilon \colon C \to k$ is the counit map.
+
+ 	Since extension of graded vector spaces \eqref{eq:X} is trivial, there is a splitting ${s\colon W' \to X}$. We obtain a splitting of extension \eqref{eq:XC} as the following composition:
+ 	$$
+ 	W \to W \otimes C \to W' \otimes C \stackrel{s\otimes\id}\longrightarrow X \otimes C,
+ 	$$
+ 	where the first arrow is the coaction map and the second arrow is the natural projection.
+ \end{proof}
+\medspace
+Now let $C^{}$	be a coaugmented dg-coalgebra. Let $V$ be a dg-comodule over~$C$ and denote by $\rho \colon V \to V \otimes C$ the coaction map. Let
+$$
+X = V^{C} \subset V
+$$
+be the subcomplex of \emph{$C$-invariants}, i.e. $X$ is the kernel of the map
+$$
+V \to V \otimes C, \quad v \mapsto \rho (v) - v \otimes 1.
+$$
+Consider a cocycle $x \in X^1$, $dx=0$. Define a differential on the graded vector space ${W^{\sharp}=V^{\sharp} \oplus k}$ by the matrix $
+\begin{psmallmatrix}
+d & x \\
+	0 & 0 \\
+\end{psmallmatrix}
+$.
+Define the structure of a graded comodule over the graded coalgebra $C$ on $W$ as on the direct sum of graded comodules. Using the equalities $dx=0$ and ${\rho(x)=x\otimes 1}$, one checks directly that the differential and the comodule structures on $W^{\sharp}$ are compatible, i.e. $W$ is a dg-comodule over the dg-coalgebra $C$. Moreover, we obtain an extension of dg-comodules over $C$
+$$
+	\xymatrix{
+	& 0 \ar[r]&  V  \ar[r] & W  \ar[r]  &  k  \ar[r] & 0\,.
+}
+$$
+Thus we obtain a map
+\begin{equation}\label{eq:lambda}
+\mu \colon H^1(X) \to \Ext^1_C(k, V).
+\end{equation}
+
+
+\begin{lemma}
+\label{'useful'}
+Assume that the graded comodule $V^{\sharp}$ is cofree over the graded coalgebra $C^{\sharp}$. Then the map $\mu$ is an isomorphism.
+\end{lemma}
+\begin{proof}
+The proof is similar to the proof of Lemma~\ref{'useful3'}.
+
+	Let us construct an inverse map to $\mu$. Consider an arbitrary extension of dg-comodules over $C$
+	$$
+	\xymatrix{
+	 & 0 \ar[r] &  V^{} \ar[r] & W^{}  \ar[r]^{p}  &  k  \ar[r]  & 0\,.
+	}
+	$$
+Since $V$ is cofree as a graded comodule, by Lemma~\ref{'podlemma'}, there is a section $s\colon k\to W$ in the category of graded comodules (which may be not compatible with the differential). Take the element $x=d(s(1))\in W^1$. Then $dx=0$ and $p(x)=d(1)=0$. Thus, $x$ is a cocycle in $V^1 \subset W^1$. Since $s$ is a morphism of graded comodules, $s(1)$ and $x$ are $C$-invariant vectors in $W$, whence $x$ is a $C$-invariant vector in~$V$. This gives the required inverse map.
+	
+\end{proof}
+
+\begin{lemma}
+	\label{'useful1'}
+Let $C^{}$	be a dg-coalgebra such that $C^{ < 0} = 0$ and put $H=H^0(C)$. Let $V$ be a dg-comodule over $C$ such that $V^{<0}=0$ and $H^1(V)=0$. Then the functor ${H^0\colon \Comod(C)\to \Comod(H) }$ induces an isomorphism
+	$$
+	\Ext^1_{C} (U, V) \stackrel{\sim}\longrightarrow \Ext^1_{H} (U, H^{0}(V))
+	$$
+	for any comodule $U$ over $H$.
+\end{lemma}
+\begin{proof}
+	The functor ${H^0\colon \Comod(C)\to \Comod(H) }$ sends an extension of $U$ by~$V$ to an extension of $U$ by $H^0(V)$, because $H^0(U) = U$ and $H^1(V)=0$. Thus the map in the lemma is well-defined. Let us construct an inverse to this map.
+	
+	Given an extension of comodules over $H$
+	\begin{equation}
+	\label{eq:H0V}
+	\xymatrix{
+		 0 \ar[r] &  H^0(V) \ar[r] & W  \ar[r]  &  U  \ar[r] & 0\,,
+	}
+	\end{equation}
+take its pushout
+	\begin{equation}
+	\label{eq:V}
+	\xymatrix{
+		0 \ar[r] &  V \ar[r] & W'  \ar[r]  &  U  \ar[r] & 0
+	}
+\end{equation}
+along the natural map $\alpha \colon H^0(V)\to V$ (we use that $V^{<0}=0$ for the existence of $\alpha$). Clearly, \eqref{eq:V} is an extension of complexes.
+
+Since $C^{<0}=0$, we have a natural embedding of dg-coalgebras $H[0] \to C$. Therefore, extension \eqref{eq:H0V} is naturally an extension of degree zero dg-comodules over $C$. Since~$\alpha$ is a morphism of dg-comodules over $C$, we see that \eqref{eq:V} is in fact an extension of dg-comodules over $C$. This defines the required inverse map from ${\Ext^1_H(U,H^0(V))}$ to ${\Ext^1_C(U,V)}$.
+\end{proof}
+
+\subsection{Bar complex and extensions}
+
+Let $\alpha\colon A\to k$ be an augmented dg-algebra. For short, denote by $C$ the coaugmented dg-coalgebra $\Barr(A,\alpha)$.
+Since the functor between abelian categories ${B\colon\Mod(A)\to \Comod(C)}$ is exact, for any dg-module $M$ over $A$, we have a well-defined map
+$$
+\Ext^1_A(A,M)\to \Ext^1_{C}(B(A),B(M)).
+$$
+Note that the natural embedding $M\subset B(M)$ identifies the subcomplex $M\subset B(M)$ with $C$-invariants, because $B(M) \simeq M\otimes \widetilde{T}(A[1])^{\#}$.
+
+In particular, we have a composition $k\to A\to B(A)$ of morphisms of \mbox{dg-comodules}. Taking the pull-back of extensions along this composition, we obtain a map
+$$
+\Ext^1_{C}(B(A),B(M))\to \Ext^1_{C}(k,B(M)).
+$$
+
+\begin{lemma}\label{lemma:Bextensions}
+The composition
+$$
+\Ext^1_A(A,M)\to \Ext^1_{C}(B(A),B(M))\to \Ext^1_{C}(k,B(M))
+$$
+is an isomorphism.
+\end{lemma}
+\begin{proof}
+Consider an extension of dg-modules over $A$
+$$
+\xymatrix{
+	 0 \ar[r] &  M\ar[r] & N\ar[r] & A \ar[r] & 0\,. \\
+}
+$$
+Then we have a diagram of extensions
+$$
+\xymatrix{
+	 0 \ar[r] &  M \ar[r]\ar@{^{(}->}[d] & N \ar[r]\ar@{^{(}->}[d] & A  \ar[r]\ar@{^{(}->}[d] & 0 \\
+	0 \ar[r] & B(M) \ar[r] & B(N) \ar[r] & B(A) \ar[r] & 0\,,
+}
+$$
+where the top raw is identified with $C$-invariants of the bottom row. An explicit description of the maps $\lambda$ (see formula~\eqref{eq:mu}) and $\mu$ (see formula~\eqref{eq:lambda}) together with this diagram implies that the composition
+$$
+H^1(M)\stackrel{\lambda}\longrightarrow \Ext^1_A(A,M)\longrightarrow \Ext^1_C(k,B(M))
+$$
+coincides with the map $\mu\colon H^1(M=B(M)^C)\to \Ext^1_C(k,B(M))$.
+
+By Lemma~\ref{'useful3'}, $\lambda$ is an isomorphism. Since $B(M)^{\#}$ is a cofree graded comodule over $C^{\#}$, by Lemma~\ref{'useful'}, $\mu$ is an isomorphism as well. This proves the lemma.
+\end{proof}
+
+\begin{rem}
+Actually, each map in the composition in Lemma~\ref{lemma:Bextensions} is an isomorphism, but we will not use this.
+\end{rem}
+
+\subsection{Reduced bar complex}
+\label{reduced_bar}
+
+Let us explain a motivation for the reduced bar complex. As above, let $\alpha\colon A\to k$ by an augmented dg-algebra. Put $C=\Barr(A,\alpha)$ and $H=H^0(C)$. Our next goal is to show that the map
+$$
+\Phi\colon \Ext^1_A(A,M)\to \Ext^1_H(k,\Phi(M))
+$$
+is an isomorphism for a unipotent dg-module $M$. This will be a key fact for the proof of the theorem. Since ${\Phi(M)=H^0(B(M))}$, by Lemma~\ref{lemma:Bextensions} we would prove this if we would show that the functor $H^0$ induces an isomorphism ${\Ext^1_C(k,B(M))\to\Ext^1_H(k,H^0(B(M)))}$. In order to apply Lemma~\ref{'useful1'}, we need that both $C$ and $B(M)$ have no negative terms. However, these complexes do have non-zero negative terms in general.
+
+A first attempt to overcome this problem is to apply the canonical truncation functor and to consider the dg-comodule $\tau_{\geqslant 0}B(M)$ over the coaugmented \mbox{dg-coalgebra} $\tau_{\geqslant 0}C$. However, doing this we loose the important property of the corresponding graded comodule to be cofree and thus we miss the argument in the proof of Lemma~\ref{lemma:Bextensions} that consists in applying Lemma~\ref{'useful'}.
+
+A right way to solve this problem is to consider so called reduced bar complexes~$\overline{C}=\overline{\Barr}(A,\alpha)$ and $\overline{B}(M)$. Note that $\overline{C}$ sits in the composition of quasi-isomorphisms of coaugmented dg-coalgebras
+$$
+C\to \tau_{\geqslant 0}C\to \overline{C},
+$$
+while $\overline{B}(M)$ sits in the composition of quasi-isomorphisms of dg-comodules over these dg-coalgebras
+$$
+B(M)\to \tau_{\geqslant 0}B(M)\to \overline{B}(M),
+$$
+the complexes $\overline{C}$, $\overline{B}(M)$ have no negative terms, and $\overline{B}(M)^{\#}$ is still a cofree graded comodule over $\overline{C}^{\#}$. Let us give more detail. \medskip
+
+For simplicity, throughout this subsection we assume that $A^{<0}=0$ and $k=A^0$.
+
+Let $I^{\#}\subset C^{\#}\simeq\widetilde{T}(A[1])$ be the graded subspace generated by elements $(a_1| \ldots |a_n) \in \widetilde{T}(A[1])$, where $a_i \in k=A^0$ for some $1\leqslant i\leqslant n$. It is easy to see that $I\subset C$ is both a subcomplex and a coideal. The \emph{reduced bar complex} is the quotient
+$$
+\overline{\Barr}(A,\alpha) = C/I,
+$$
+which is naturally a coaugmented dg-coalgebra. For short, put $\overline{C}=\overline{\Barr}(A,\alpha)$.
+
+Given a dg-module $M$ over $A$, consider the graded subspace
+$$
+M\otimes I^{\#}\subset B(M)^{\#}\simeq M\otimes \widetilde{T}(A[1]).
+$$
+It is easy to see that $M\otimes I\subset B(M)$ is both a subcomplex and a subcomodule. The \emph{reduced bar complex} $\overline{B}(M)$ is the quotient
+$$
+\overline{B}(M)\simeq B(M)/(M\otimes I),
+$$
+which is naturally a dg-comodule over $\overline{C}$. Moreover, we see that $\overline{B}(M)^{\#}\simeq M\otimes\overline{C}^{\#}$ is a cofree graded $\overline{C}^{\#}$-module and $M\subset \overline{B}(M)$ is identified with $\overline{C}$-invariants.
+
+Also, it is easily seen that $(\overline{C})^{<0}=0$, because $A^{<0}=0$ and $k=A^0$. It follows that if $M$ has no negative terms, then $\overline{B}(M)$ has no negative terms as well.
+
+
+\begin{lemma}\label{lem:reducedquis}
+The	natural projection $B(M)\to\overline{B}(M)$ is a quasi-isomorphism.
+\end{lemma}	
+\begin{proof}
+It is easy to see that since $A^{ <0} =0$ and $k=A^0$, the reduced bar complex is the normalization of the bar complex $B(M)$, which, by definition, is the complex associated naturally to the simplicial complex~\eqref{eq:simplicial}.
+\end{proof}
+
+In particular, by Lemma \ref{lem:reducedquis}, we have $H\simeq H^0(\overline{C})$ and $\Phi(M) \simeq H^0(\overline{B}(M))$.
+
+\begin{rem}
+Actually, one can define reduced bar complexes for an arbitrary dg-algebra $A$ and Lemma~\ref{lem:reducedquis} remains true whenever $A$ is connected; the proof requires an additional argument. However, we will not need this more general fact.
+\end{rem}
+
+The proof of the following lemma is the same as the proof of Lemma~\ref{lemma:Bextensions}.
+
+\begin{lemma}\label{lemma:barBextensions}
+The composition
+$$
+\Ext^1_A(A,M)\to \Ext^1_{\overline{C}}(\overline{B}(A),\overline{B}(M))\to \Ext^1_{\overline{C}}(k,\overline{B}(M))
+$$
+is an isomorphism.
+\end{lemma}
+
+As an application, we obtain the following important fact.
+
+\begin{prop}\label{prop:Ext}
+Suppose that $M^{<0}=0$ and $H^1(B(M))=0$. Then the functor $\Phi$ defines an isomorphism
+$$
+\Phi\colon \Ext^1_A(A,M)\stackrel{\sim}\longrightarrow \Ext^1_H(k,\Phi(M)).
+$$
+\end{prop}
+\begin{proof}
+Lemma \ref{lemma:barBextensions} yields an isomorphism $\Ext^1_A(A,M) \stackrel{\sim}\longrightarrow \Ext^1_H (k,\Phi(M))$. Since $M^{<0}=0$, we have $\overline{B}(M)^{<0}=0$. Further, by Lemma~\ref{lem:reducedquis}, we have canonical isomorphisms ${H^i(B(M))\stackrel{\sim}\longrightarrow H^i(\overline{B}(M))}$. Hence, $H^1(\overline{B}(M))=0$. Now by Lemma~\ref{'useful1'}, the functor $H^0$ induces an isomorphism
+$$
+\Ext^1_{\overline{C}}(k,\overline{B}(M))\stackrel{\sim}\longrightarrow \Ext^1_{H}(k,\Phi(M)).
+$$
+\end{proof}
+
+
+\subsection{Proof of Theorem~\ref{main}}
+
+Now we are ready to prove our main result, i.e. Theorem \ref{main}. \medskip
+
+{\it Step 1.}
+
+Note that a quasi-isomorphism of dg-algebras $f\colon A'\to A$ and an augmentation $\alpha\colon A\to k$ we have an isomorphism of coaugmented coalgebras
+$$
+H^0(\Barr(A',\alpha'))\stackrel{\sim}\longrightarrow H^0(\Barr(A,\alpha)),
+$$
+where $\alpha'=\alpha f\colon A'\to k$. Also, $\Phi$ is functorial in a natural sense. Thus, by Proposition~\ref{prop:dg}(1), Theorem~\ref{main} for $A'$ is equivalent to Theorem~\ref{main} for $A$.
+
+Therefore, by Lemma~\ref{lem:subalgebra}, we may assume that $A^{<0}=0$ and $k=A^0$. In this case, by Proposition~\ref{prop:dg}(2), we need to prove that the functor
+$$
+\Phi\colon \Mod^{uni}(A)\to \Comod(H)
+$$
+is an equivalence of categories. \medskip
+
+{\it Step 2.} \smallskip
+
+%In order to show that the functor $\Phi$ is an equivalence of categories, we prove that $\Phi$ is fully faithful and essentially surjective.
+
+Let us prove that the functor $\Phi$ is fully faithful. First, we show that $\Phi\colon \Hom_{A}(A, M) \to \Hom_H(k, \Phi(M))$ is an isomorphism. We use induction on the rank of an $A$-module $M$. The base follows from the isomorphism $\Phi(A)\simeq k$ of comodules over $H$ and the isomorphisms
+$$
+\Hom_A(A,A) \simeq H^0(A) \simeq k \simeq \Hom_H(k, k).
+$$
+Since $M$ is unipotent, there is an extension of unipotent dg-modules over $A$
+$$
+\xymatrix{
+	0 \ar[r] & A \ar[r] & M \ar[r] & P \ar[r] & 0\,.
+}
+$$
+The functor $\Phi$ is exact by Lemma \ref{lem:Phiexact}. Hence, applying the functor $\Phi$, we obtain an extension of comodules over $H$
+$$
+\xymatrix{
+	0 \ar[r] & k \ar[r] & \Phi(M) \ar[r] & \Phi(P) \ar[r] & 0\,.
+}
+$$
+We have a commutative diagram with exact rows:
+$$
+\xymatrix{
+	 0 \ar[r] & \Hom_{A}(A, A) \ar[r] \ar[d]^1 & \Hom_A(A, M) \ar[r] \ar[d]^2 & \Hom_A(A, P) \ar[d]^3 \ar[r] & \Ext^1_A(A, A)  \ar[d]^4 \\
+	0 \ar[r] & \Hom_{H}(k, k) \ar[r] & \Hom_H(k, \Phi(M)) \ar[r] & \Hom_{H}(k, \Phi(P)) \ar[r] & \Ext^1_{H}(k, k)\,.
+}
+$$
+Arrows 1 and 3 are isomorphisms by the induction hypothesis. Arrow~4 is an isomorphism by Proposition~\ref{prop:Ext}. Therefore, arrow 2 is an isomorphism as well.
+
+Now let us show by induction on the rank of an $A$-module $N$ that ${\Phi\colon\Hom_A(M,N)\to\Hom_H(\Phi(M),\Phi(N))}$ is an isomorphism. Consider an extension of unipotent dg-modules over $A$
+$$
+\xymatrix{
+0 \ar[r] & Q^{} \ar[r] & N^{} \ar[r] & A^{} \ar[r] & 0\,.
+}
+$$
+Applying the functor $\Phi$, we obtain an extension of comodules over $H$
+$$
+\xymatrix{
+	0 \ar[r] & k \ar[r] & \Phi(N) \ar[r] & \Phi(P) \ar[r] & 0\,.
+}
+$$
+We have obtain a commutative diagram with exact rows:
+$$
+\xymatrix{
+	0 & \Hom_{A}(A, A) \ar[l] \ar[d]^1 & \Hom_A(N, A) \ar[l] \ar[d]^2 & \Hom_A(Q,A) \ar[d]^3 \ar[l] & \Ext^1_A(P, M ) \ar[d]^4 \ar[l]\\
+	0 & \Hom_{H}(k, \Phi(k)) \ar[l] & \Hom_H(\Phi(N), \Phi(M)) \ar[l] & \Hom_{H}(\Phi(Q), \Phi(M)) \ar[l]& \Ext^1_{H}(k, \Phi(M)) \ar[l]
+}
+$$
+Arrows 1 and 3 are isomorphisms by the induction hypothesis. Arrow~4 is an isomorphism by Proposition~\ref{prop:Ext}. Therefore, arrow 2 is an isomorphism as well. \medskip
+
+{\it Step 3.}
+
+Now we show that the functor $\Phi$ is essentially surjective. Let $V$ be a finite-dimensional comodule over $H$. We show by induction on the dimension of $V$ that $V$ is in the image of the functor $\Phi$. The base of the induction is the isomorphism $k\simeq\Phi(A)$.
+
+For the induction step recall that the coaugmented coalgebra $H$ is pro-unipotent. Hence there exists an extension of \mbox{$H$-comodules}
+\begin{equation}\label{eq:WVk}
+\xymatrix{
+	0 \ar[r] & W \ar[r] & V \ar[r] & k \ar[r] & 0\,.
+}
+\end{equation}
+By the induction hypothesis, there is a dg-module $N$ over $A$ such that $\Phi(N)\simeq W$. By Proposition~\ref{prop:Ext}, we have an isomorphism $\Phi : \Ext^1_A(A,N) \stackrel{\sim}\longrightarrow \Ext^1_H (k,\Phi(N))$. Hence, there is an extension of unipotent dg-modules over $A$
+$$
+\xymatrix{
+	0 \ar[r] & N \ar[r] & M \ar[r] & A \ar[r] & 0
+}
+$$
+that is sent to extension~\eqref{eq:WVk} by the functor $\Phi$. In particular, $\Phi(M)\simeq V$. This finishes the proof of Theorem \ref{main}.
+\begin{thebibliography}{99}
+		
+		
+		\bibitem{Chen}
+		K.-T.\,Chen, {\it Iterated path integrals and generalized paths}, Bull. Amer. Math. Soc., {\bf 73} (1967), 935--938.
+		
+		\bibitem{Par}
+		A.\,N.\,Parshin, {\it On a certain generalization of Jacobian manifold}, Izv. Akad. Nauk SSSR Ser. Mat., {\bf 30} (1966), 175--182.
+
+\bibitem{Pos}
+L.\,Positselski, {\it Two kinds of derived categories, Koszul duality, and comodule-contramodule correspondence}, Mem. Amer. Math. Soc. {\bf 212}:996 (2011).
+
+\bibitem{Milne}
+J. S. Milne - Algebraic Groups: The Theory of Group Schemes of Finite Type over a Field, Cambridge University Press (2017)
+		
+\end{thebibliography}
+	
+	
+	
+\end{document}
+
+
+
